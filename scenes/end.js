@@ -2,17 +2,19 @@
 # End Menu
 ##############################################################################*/
 
-function updateEnd(){
+var end = {};
+
+end.update = function(){
     clearCanvas();
-    drawEndButton();
+    this.drawEndButton();
 }
 
-function drawEndButton(){
+end.drawEndButton = function(){
     drawBox(100, 100, 100, 100);
     drawText("Game", 100, 150);
     drawText("Over", 110, 180);
-    drawText(`Kills: ${enemiesDestroyed}`, 100, 240);
-    if(isEndButtonSelected()){
+    drawText(`Kills: ${game.enemiesDestroyed}`, 100, 240);
+    if(this.isEndButtonSelected()){
         drawLine(0, 0, 100, 100);
         drawLine(0, 400, 100, 200);
         drawLine(400, 0, 200, 100);
@@ -20,21 +22,19 @@ function drawEndButton(){
     }
 }
 
-
-function isEndButtonSelected(){
+end.isEndButtonSelected = function (){
     var boxTopLeft = { x: 100, y: 100 };
     var boxBottomRight = { x: 200, y: 200};
     var point = getMousePosition();
     if(typeof point === "undefined"){
-        console.log("Null");
         return false;
     }
     return isInsideBox(boxTopLeft, boxBottomRight, point);
 }
 
-function endMouseDown(){
-    if(isEndButtonSelected()){
-        resetGame();
+end.mouseDown = function(){
+    if(this.isEndButtonSelected()){
+        game.reset();
         activeScene = START_SCENE;
     }
 }

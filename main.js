@@ -10,16 +10,16 @@ var activeScene = START_SCENE;
 function updateScene(){
   switch(activeScene){
     case GAME_SCENE:
-      updateGame();
+      game.update();
       break;
     case START_SCENE:
-      updateStart();
+      start.update();
       break;
     case END_SCENE:
-      updateEnd();
+      end.update();
       break;
     case NEXT_SCENE:
-      updateNext();
+      next.update();
       break;
   }
 }
@@ -27,16 +27,16 @@ function updateScene(){
 function sceneMouseDown(evt){
     switch(activeScene){
     case GAME_SCENE:
-      gameMouseDown(evt);
+      game.mouseDown(evt);
       break;
     case START_SCENE:
-      startMouseDown(evt);
+      start.mouseDown(evt);
       break;
     case END_SCENE:
-      endMouseDown(evt);
+      end.mouseDown(evt);
       break;
     case NEXT_SCENE:
-      nextMouseDown(evt);
+      next.mouseDown(evt);
       break;
   }
 }
@@ -44,7 +44,7 @@ function sceneMouseDown(evt){
 function sceneMouseUp(evt){
     switch(activeScene){
     case GAME_SCENE:
-      gameMouseUp(evt);
+      game.mouseUp(evt);
       break;
   }
 }

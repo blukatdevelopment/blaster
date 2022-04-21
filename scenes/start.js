@@ -1,16 +1,19 @@
 /*##############################################################################
 # Start Menu
 ##############################################################################*/
+var start = {};
 
-function updateStart(){
+start.mouseUp = function(){}
+
+start.update = function(){
     clearCanvas();
-    drawStartButton();
+    this.drawStartButton();
 }
 
-function drawStartButton(){
+start.drawStartButton = function(){
     drawBox(100, 100, 100, 100);
     drawText("Start", 100, 150);
-    if(isStartButtonSelected()){
+    if(this.isStartButtonSelected()){
         drawLine(0, 0, 100, 100);
         drawLine(0, 400, 100, 200);
         drawLine(400, 0, 200, 100);
@@ -19,7 +22,7 @@ function drawStartButton(){
 }
 
 
-function isStartButtonSelected(){
+start.isStartButtonSelected = function(){
     var boxTopLeft = { x: 100, y: 100 };
     var boxBottomRight = { x: 200, y: 200};
     var point = getMousePosition();
@@ -29,8 +32,11 @@ function isStartButtonSelected(){
     return isInsideBox(boxTopLeft, boxBottomRight, point);
 }
 
-function startMouseDown(){
-    if(isStartButtonSelected()){
+start.mouseDown = function(){
+    if(this.isStartButtonSelected()){
         activeScene = GAME_SCENE;
     }
 }
+
+
+

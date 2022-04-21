@@ -2,20 +2,21 @@
 # Next Menu
 ##############################################################################*/
 
-function updateNext(){
+var next = {};
+
+next.update = function(){
     clearCanvas();
-    drawNextButton();
+    this.drawNextButton();
 }
 
-function drawNextButton(){
+next.drawNextButton = function(){
     drawBox(100, 100, 100, 100);
-    drawText("Wave " + currentWave, 100, 150);
+    drawText("Wave " + game.currentWave, 100, 150);
     drawText("Complete", 100, 180);
-    drawText(`Total Kills: ${enemiesDestroyed}`, 100, 240);
+    drawText(`Total Kills: ${game.enemiesDestroyed}`, 100, 240);
 }
 
-
-function isNextButtonSelected(){
+next.isNextButtonSelected = function(){
     var boxTopLeft = { x: 100, y: 100 };
     var boxBottomRight = { x: 200, y: 200};
     var point = getMousePosition();
@@ -26,8 +27,10 @@ function isNextButtonSelected(){
     return isInsideBox(boxTopLeft, boxBottomRight, point);
 }
 
-function nextMouseDown(){
-    if(isNextButtonSelected()){
+next.mouseDown = function(){
+    if(this.isNextButtonSelected()){
         activeScene = GAME_SCENE;
     }
 }
+
+next.mouseUp = function(){}
