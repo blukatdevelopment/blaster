@@ -50,32 +50,6 @@ scene.mouseUp = function(evt){
   }
 }
 
-
-/*##############################################################################
-# Game Loop
-##############################################################################*/
-const SCREEN_MIN = 0,
-SCREEN_MAX = 400;
-
-var fps = 60,
-start_time = Date.now(),
-frameDuration = 1000 / fps,
-lag = 0;
-
-function gameLoop(){
-  requestAnimationFrame(gameLoop, getCanvas());
-
-  var current_time = Date.now(),
-  elapsed = current_time - start_time;
-  start_time = current_time;
-  lag += elapsed;
-
-  while(lag >= frameDuration){
-    scene.update();
-    lag -= frameDuration;
-  }
-}
-
 /*##############################################################################
 # Util
 ##############################################################################*/
@@ -105,14 +79,36 @@ function playSound(file){
 /*##############################################################################
 # Main
 ##############################################################################*/
-function init(){
+var main = {};
+main.SCREEN_MIN = 0;
+main.SCREEN_MAX = 400;
+
+main.fps = 60;
+main.startTime = Date.now();
+main.frameDuration = 1000 / main.fps
+main.lag = 0;
+
+main.gameLoop = function(){
+  requestAnimationFrame(main.gameLoop, getCanvas());
+
+  var current_time = Date.now();
+  var elapsed = current_time - main.startTime;
+  main.startTime = current_time;
+  main.lag = elapsed;
+  while(main.lag >= main.frameDuration){
+    scene.update();
+    main.lag -= main.frameDuration;
+  }
+}
+
+main.init = function(){
   initContext();
   initInput();
 }
 
-function main(){
-  init();
-  gameLoop();
+main.main = function(){
+  this.init();
+  this.gameLoop();
 }
 
-main();
+main.main();

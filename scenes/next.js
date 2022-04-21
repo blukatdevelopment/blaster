@@ -21,7 +21,6 @@ next.isNextButtonSelected = function(){
     var boxBottomRight = { x: 200, y: 200};
     var point = getMousePosition();
     if(typeof point === "undefined"){
-        console.log("Null");
         return false;
     }
     return isInsideBox(boxTopLeft, boxBottomRight, point);

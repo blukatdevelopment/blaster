@@ -121,8 +121,8 @@ game.spawnEnemies = function(){
 
 game.spawnRandomEnemy = function(){
   var enemy = this.createEnemySphere();
-  enemy.x = randRange(SCREEN_MIN, SCREEN_MAX);
-  enemy.y = randRange(SCREEN_MIN, SCREEN_MAX);
+  enemy.x = randRange(main.SCREEN_MIN, main.SCREEN_MAX);
+  enemy.y = randRange(main.SCREEN_MIN, main.SCREEN_MAX);
   this.enemies.push(enemy);
 }
 
