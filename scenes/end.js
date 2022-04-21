@@ -35,6 +35,6 @@ end.isEndButtonSelected = function (){
 end.mouseDown = function(){
     if(this.isEndButtonSelected()){
         game.reset();
-        activeScene = START_SCENE;
+        scene.activeScene = scene.START_SCENE;
     }
 }

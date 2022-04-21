@@ -29,7 +29,7 @@ next.isNextButtonSelected = function(){
 
 next.mouseDown = function(){
     if(this.isNextButtonSelected()){
-        activeScene = GAME_SCENE;
+        scene.activeScene = scene.GAME_SCENE;
     }
 }
 

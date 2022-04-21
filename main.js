@@ -1,49 +1,50 @@
 /*##############################################################################
 # Scene management
 ##############################################################################*/
-const START_SCENE = "start",
-GAME_SCENE = "game",
-END_SCENE = "lose",
-NEXT_SCENE = "next";
-var activeScene = START_SCENE;
+var scene = {};
+scene.START_SCENE = "start",
+scene.GAME_SCENE = "game",
+scene.END_SCENE = "lose",
+scene.NEXT_SCENE = "next";
+scene.activeScene = scene.START_SCENE;
 
-function updateScene(){
-  switch(activeScene){
-    case GAME_SCENE:
+scene.update = function(){
+  switch(this.activeScene){
+    case this.GAME_SCENE:
       game.update();
       break;
-    case START_SCENE:
+    case this.START_SCENE:
       start.update();
       break;
-    case END_SCENE:
+    case this.END_SCENE:
       end.update();
       break;
-    case NEXT_SCENE:
+    case this.NEXT_SCENE:
       next.update();
       break;
   }
 }
 
-function sceneMouseDown(evt){
-    switch(activeScene){
-    case GAME_SCENE:
+scene.mouseDown = function(evt){
+    switch(this.activeScene){
+    case this.GAME_SCENE:
       game.mouseDown(evt);
       break;
-    case START_SCENE:
+    case this.START_SCENE:
       start.mouseDown(evt);
       break;
-    case END_SCENE:
+    case this.END_SCENE:
       end.mouseDown(evt);
       break;
-    case NEXT_SCENE:
+    case this.NEXT_SCENE:
       next.mouseDown(evt);
       break;
   }
 }
 
-function sceneMouseUp(evt){
-    switch(activeScene){
-    case GAME_SCENE:
+scene.mouseUp = function(evt){
+    switch(this.activeScene){
+    case this.GAME_SCENE:
       game.mouseUp(evt);
       break;
   }
@@ -70,7 +71,7 @@ function gameLoop(){
   lag += elapsed;
 
   while(lag >= frameDuration){
-    updateScene();
+    scene.update();
     lag -= frameDuration;
   }
 }

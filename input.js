@@ -19,10 +19,10 @@ var input = {
 
 function onMouseDown(evt){
   console.log("Mouse down"+ evt);
-  sceneMouseDown(evt);
+  scene.mouseDown(evt);
 }
 function onMouseUp(evt){
-  sceneMouseUp(evt);
+  scene.mouseUp(evt);
 }
 function onMouseMove(evt)
 {

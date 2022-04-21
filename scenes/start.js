@@ -34,7 +34,7 @@ start.isStartButtonSelected = function(){
 
 start.mouseDown = function(){
     if(this.isStartButtonSelected()){
-        activeScene = GAME_SCENE;
+        scene.activeScene = scene.GAME_SCENE;
     }
 }
 

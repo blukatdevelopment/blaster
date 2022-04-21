@@ -90,7 +90,7 @@ game.drawAmmoBar = function(){
 game.damagePlayer = function(damage){
   this.health -= damage;
   if(this.health < 1){
-    activeScene = END_SCENE;
+    scene.activeScene = scene.END_SCENE;
   }
 }
 
@@ -137,7 +137,7 @@ game.destroyEnemy = function(enemyId){
   }
   if(this.enemies.length == 0 && this.enemiesInWave == 0){
     this.waveStarted = false;
-    activeScene = NEXT_SCENE;
+    scene.activeScene = scene.NEXT_SCENE;
   }
 }
 
