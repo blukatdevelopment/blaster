@@ -11,8 +11,13 @@ end.update = function(){
 
 end.drawEndButton = function(){
     drawBox(100, 100, 100, 100);
-    drawText("Game", 100, 150);
-    drawText("Over", 110, 180);
+    if(game.winner){
+        drawText("Winner!", 100, 150);
+    }
+    else{
+        drawText("Game", 100, 150);
+        drawText("Over", 110, 180);
+    }
     drawText(`Kills: ${game.enemiesDestroyed}`, 100, 240);
     if(this.isEndButtonSelected()){
         drawLine(0, 0, 100, 100);

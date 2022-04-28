@@ -33,17 +33,22 @@ game.mouseUp = function(evt){
 
 game.startWave = function(){
   this.waveStarted = true;
+  this.enemiesInWave = this.WAVES[this.currentWave].enemies;
   this.currentWave++;
-  this.enemiesInWave = this.currentWave * this.currentWave + 5;
+  this.reticleSize = this.RETICLE_MIN_SIZE;
 }
 
 game.reset = function(){
+  this.health = this.healthMax;
   this.waveStarted = false;
   this.currentWave = 0;
   this.nextEnemyId = 0;
   this.enemies = [];
   this.enemiesDestroyed = 0;
   this.enemiesInWave = 0;
+  this.gameOver = false;
+  this.winner = false;
+  this.reticleSize = this.RETICLE_MIN_SIZE;
 }
 
 /*##############################################################################
@@ -97,8 +102,6 @@ game.damagePlayer = function(damage){
 /*##############################################################################
 # Enemy Management
 ##############################################################################*/
-game.SPAWN_DELAY_MAX = 150; // 5 * 30
-game.SPAWN_DELAY_MIN = 60; // 2 * 30
 game.currentSpawnDelay = 0;
 game.nextEnemyId = 0;
 game.enemies = [];
@@ -107,12 +110,57 @@ game.currentWave = 0;
 game.enemiesInWave = 0;
 game.waveStarted = false;
 
+game.WAVES = [
+  {
+    level: 1,
+    maxCluster: 2,
+    enemies: 5,
+    SPAWN_DELAY_MAX: 150, // 5 * 30
+    SPAWN_DELAY_MIN: 60, // 2 * 30
+  },
+  {
+    level: 2,
+    maxCluster: 3,
+    enemies: 15,
+    SPAWN_DELAY_MAX: 90, // 3 * 30
+    SPAWN_DELAY_MIN: 60, // 2 * 30
+  },
+  {
+    level: 3,
+    maxCluster: 4,
+    enemies: 25,
+    SPAWN_DELAY_MAX: 90, // 3 * 30
+    SPAWN_DELAY_MIN: 30, // 1 * 30
+  },
+  {
+    level: 4,
+    maxCluster: 5,
+    enemies: 40,
+    SPAWN_DELAY_MAX: 60, // 2 * 30
+    SPAWN_DELAY_MIN: 15, // 0.5 * 30
+  },
+  {
+    level: 5,
+    maxCluster: 5,
+    enemies: 55,
+    SPAWN_DELAY_MAX: 30, // 1 * 30
+    SPAWN_DELAY_MIN: 15, // 0.5 * 30
+  }
+];
+
 
 game.spawnEnemies = function(){
   if(this.currentSpawnDelay <= 0){
-    this.spawnRandomEnemy();
-    this.currentSpawnDelay = randRange(this.SPAWN_DELAY_MIN, this.SPAWN_DELAY_MAX);
-    this.enemiesInWave--;
+    for(var i = 0; i < randRange(1, 4); i++){
+      if(this.enemiesInWave > 0){
+        this.spawnRandomEnemy();
+        this.enemiesInWave--;
+      }
+    }
+    var wave = this.WAVES[this.currentWave];
+    if(typeof wave !== "undefined"){
+      this.currentSpawnDelay = randRange(wave.SPAWN_DELAY_MIN, wave.SPAWN_DELAY_MAX);
+    }
   }
   else{
     this.currentSpawnDelay--;
@@ -137,7 +185,13 @@ game.destroyEnemy = function(enemyId){
   }
   if(this.enemies.length == 0 && this.enemiesInWave == 0){
     this.waveStarted = false;
-    scene.activeScene = scene.NEXT_SCENE;
+    if(this.WAVES.length <= this.currentWave){
+      this.winner = true;
+      scene.activeScene = scene.END_SCENE;
+    }
+    else{
+      scene.activeScene = scene.NEXT_SCENE;  
+    }
   }
 }
 
@@ -175,13 +229,21 @@ game.createEnemySphere = function(){
     }
   }
   sphere.isHit = function(x, y){
+    var deltaX = Math.abs(this.x - x);
+    var deltaY = Math.abs(this.y - y);
+    return deltaX <= this.size && deltaY <= this.size;
+    /*
     var a = this.x - x;
     var b = this.y - y;
     var c = Math.sqrt(a*a, b*b);
-    return c <= this.size;
+    var hit = c <= this.size;
+    if(hit){
+      console.log(`this[${this.x}, ${this.y}], that[${x}, ${y}], size: ${this.size}`);
+    }
+    return hit;
+    */
   }
-  sphere.takeDamage = function(damage){
-    this.hp -= damage;
+  sphere.takeDamage = function(damage){this.hp -= damage;
     if(this.hp < 1){
       playSound(SFX_EXPLOSION);
       game.enemiesDestroyed++;
@@ -207,7 +269,7 @@ game.RETICLE_MAX_SIZE = 50;
 game.health = 3;
 game.healthMax = 3;
 game.ammo = 9999;
-game.activeWeapon = game.BLASTER;
+game.activeWeapon = game.AUTOBLASTER;
 game.reticleSize = game.RETICLE_MIN_SIZE;
 game.activeWeaponFired = false;
 game.activeWeaponReleased = true;
@@ -259,7 +321,7 @@ game.fireBlaster = function(){
 /*##############################################################################
 # Auto Blaster
 ##############################################################################*/
-game.autoBlasterCycleTime = 10,
+game.autoBlasterCycleTime = 4,
 game.autoBlasterDelay = 0;
 game.AUTOBLASTER_RECOIL = 10;
 
