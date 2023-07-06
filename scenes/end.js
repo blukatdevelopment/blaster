@@ -11,14 +11,9 @@ end.update = function(){
 
 end.drawEndButton = function(){
     drawBox(100, 100, 100, 100);
-    if(game.winner){
-        drawText("Winner!", 100, 150);
-    }
-    else{
         drawText("Game", 100, 150);
         drawText("Over", 110, 180);
-    }
-    drawText(`Kills: ${game.enemiesDestroyed}`, 100, 240);
+    drawText(`Kills: 10`, 100, 240);
     if(this.isEndButtonSelected()){
         drawLine(0, 0, 100, 100);
         drawLine(0, 400, 100, 200);
@@ -39,7 +34,5 @@ end.isEndButtonSelected = function (){
 
 end.mouseDown = function(){
     if(this.isEndButtonSelected()){
-        game.reset();
-        scene.activeScene = scene.START_SCENE;
     }
 }
